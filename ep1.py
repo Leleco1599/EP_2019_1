@@ -1,11 +1,19 @@
 # EP 2019-1: Escape Insper
 #
 # Alunos: 
-
 # aluno A - Alexandre Markiewicz Fernandes, alexandremf6@al.insper.edu.br
 # aluno B - Luiz Felipe Valente, luizfdv@al.insper.edu.br
 
+#--------- AREA DE IMPORTS -----------
+import random
 
+#--------- EVENTO RANDOM ------------
+def evento():
+    x = random.randint(1,2)
+    return x
+
+
+#--------- FUNCAO CENARIOS -----------
 def carregar_cenarios():
     cenarios = {
         "inicio": {
@@ -13,35 +21,41 @@ def carregar_cenarios():
             "descricao": "Voce esta no saguao de entrada do insper",
             "opcoes": {
                 "andar professor": "Tomar o elevador para o andar do professor",
-                "biblioteca": "Ir para a biblioteca"
-            }
+                "biblioteca": "Ir para a biblioteca",
+            },
+            "evento":False,
         },
         "andar professor": {
             "titulo": "Andar do desespero",
             "descricao": "Voce chegou ao andar da sala do seu professor",
             "opcoes": {
                 "inicio": "Tomar o elevador para o saguao de entrada",
-                "professor": "Falar com o professor"
-            }
+                "professor": "Falar com o professor",
+            },
+            "evento": True,
         },
         "professor": {
             "titulo": "O monstro do Python",
             "descricao": "Voce foi pedir para o professor adiar o EP. "
                          "O professor revelou que é um monstro disfarçado "
                          "e devorou sua alma.",
-            "opcoes": {}
+            "opcoes": {},
+            "evento": False,
         },
         "biblioteca": {
             "titulo": "Caverna da tranquilidade",
             "descricao": "Voce esta na biblioteca",
             "opcoes": {
                 "inicio": "Voltar para o saguao de entrada"
-            }
+            },
+            "evento": True,
         }
     }
     nome_cenario_atual = "inicio"
     return (cenarios, nome_cenario_atual)
 
+
+#-------- PROGRAMA QUE RODA O JOGO ----------
 
 def main():
     print("Na hora do sufoco!")
@@ -56,13 +70,11 @@ def main():
     print()
 
     cenarios, nome_cenario_atual = carregar_cenarios()
-
+    vida_personagem = 100
     game_over = False
-    while not game_over:
+    while not game_over and vida_personagem > 0:
+        
         cenario_atual = cenarios[nome_cenario_atual]
-
-        # Aluno A: substitua este comentário pelo código para imprimir 
-        # o cenário atual.
         
         comprimento_do_cenario = len(nome_cenario_atual)
         print(nome_cenario_atual)
@@ -71,6 +83,7 @@ def main():
         
 
         opcoes = cenario_atual['opcoes']
+        
         if len(opcoes) == 0:
             print("Acabaram-se suas opções! Mwo mwo mwooooo...")
             game_over = True
@@ -78,6 +91,7 @@ def main():
         else:
             
             print('Escolha sua opção: ')
+            
             for k,v in opcoes.items():
                 print(k,':',v)
             escolha = input("O que você quer fazer: ")
@@ -86,7 +100,14 @@ def main():
             else:
                 print("Sua indecisão foi sua ruína!")
                 game_over = True
-
+                
+            if cenario_atual["evento"] == True:
+                numero = evento()
+                if numero == 2:
+                    print("Um monstro apareceu!")
+                    vida_personagem = 0
+                
+       
     print("Você morreu!")
 
 
