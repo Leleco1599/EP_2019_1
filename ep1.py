@@ -9,7 +9,7 @@ import random
 
 #--------- EVENTO RANDOM ------------
 def evento():
-    x = random.randint(1,2)
+    x = random.randint(1,4)
     return x
 
 
@@ -22,6 +22,7 @@ def carregar_cenarios():
             "opcoes": {
                 "andar professor": "Tomar o elevador para o andar do professor",
                 "biblioteca": "Ir para a biblioteca",
+                "405": "Ir para a sala 405",
             },
             "evento":False,
         },
@@ -49,7 +50,26 @@ def carregar_cenarios():
                 "inicio": "Voltar para o saguao de entrada"
             },
             "evento": True,
-        }
+        },
+        "405": {
+            "titulo": "Sala 405",
+            "descricao":"Cheiro de Doritos?! Você está na sala 405",
+            "opcoes": {
+                "falar com veteras": "Falar com um veterano: 'Me salva mein'",
+                "pegar canetao": "Roubar um canetão...",
+                "404": "Ir para sala 404",
+                },
+            "evento": True
+        },
+        "404": {
+            "titulo": "Sala 404",
+            "descricao": "Error 404: Page Not Found",
+            "opcoes": {
+                "falar com tecnico": "Falar com tecnico: 'Marcão me salva!'",
+                "brincar com robo": "Voce achou um robo muito daora parça",
+                },
+            "evento": True
+        },
     }
     nome_cenario_atual = "inicio"
     return (cenarios, nome_cenario_atual)
