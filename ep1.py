@@ -1,8 +1,10 @@
 # EP 2019-1: Escape Insper
 #
 # Alunos: 
-# - aluno A: Alexandre Markiewicz Fernandes, alexandremf6@al.insper.edu.br
-# - aluno B: Luiz Felipe Domingues Valente, luizfdv@al.insper.edu.br
+
+# aluno A - Alexandre Markiewicz Fernandes, alexandremf6@al.insper.edu.br
+# aluno B - Luiz Felipe Valente, luizfdv@al.insper.edu.br
+
 
 def carregar_cenarios():
     cenarios = {
@@ -61,6 +63,12 @@ def main():
 
         # Aluno A: substitua este comentário pelo código para imprimir 
         # o cenário atual.
+        
+        comprimento_do_cenario = len(nome_cenario_atual)
+        print(nome_cenario_atual)
+        print(comprimento_do_cenario * "-")
+        print(cenario_atual["descricao"])
+        
 
         opcoes = cenario_atual['opcoes']
         if len(opcoes) == 0:
