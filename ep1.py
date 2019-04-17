@@ -23,7 +23,7 @@ def carregar_cenarios():
                 "andar professor": "Tomar o elevador para o andar do professor",
                 "biblioteca": "Ir para a biblioteca",
             },
-            "evento":False,
+            "evento": "False",
         },
         "andar professor": {
             "titulo": "Andar do desespero",
@@ -32,7 +32,7 @@ def carregar_cenarios():
                 "inicio": "Tomar o elevador para o saguao de entrada",
                 "professor": "Falar com o professor",
             },
-            "evento": True,
+            "evento": "True",
         },
         "professor": {
             "titulo": "O monstro do Python",
@@ -40,7 +40,7 @@ def carregar_cenarios():
                          "O professor revelou que é um monstro disfarçado "
                          "e devorou sua alma.",
             "opcoes": {},
-            "evento": False,
+            "evento": "False",
         },
         "biblioteca": {
             "titulo": "Caverna da tranquilidade",
@@ -48,7 +48,7 @@ def carregar_cenarios():
             "opcoes": {
                 "inicio": "Voltar para o saguao de entrada"
             },
-            "evento": True,
+            "evento": "True",
         }
     }
     nome_cenario_atual = "inicio"
@@ -72,9 +72,24 @@ def main():
     cenarios, nome_cenario_atual = carregar_cenarios()
     vida_personagem = 100
     game_over = False
-    while not game_over and vida_personagem > 0:
+    cenario_atual = cenarios[nome_cenario_atual]
+    while not game_over:
         
-        cenario_atual = cenarios[nome_cenario_atual]
+        if cenario_atual["evento"] == "True":
+                numero = evento()
+                
+                if numero == 1:
+                    print ("Você ganhou uma RedBull!")
+                    vida_personagem += 20
+                    print(vida_personagem)
+                
+                if numero == 2:
+                    print("Um monstro apareceu! Ele fez você perder tempo!")
+                    vida_personagem -= 30
+                    print("agora você tem {0} de vida!".format(vida_personagem))
+                    if vida_personagem <= 0:
+                        break
+                    
         
         comprimento_do_cenario = len(nome_cenario_atual)
         print(nome_cenario_atual)
@@ -101,13 +116,8 @@ def main():
                 print("Sua indecisão foi sua ruína!")
                 game_over = True
                 
-            if cenario_atual["evento"] == True:
-                numero = evento()
-                if numero == 2:
-                    print("Um monstro apareceu!")
-                    vida_personagem = 0
-                
-       
+            cenario_atual = cenarios[nome_cenario_atual]
+
     print("Você morreu!")
 
 
