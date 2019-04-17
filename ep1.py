@@ -9,7 +9,7 @@ import random
 
 #--------- EVENTO RANDOM ------------
 def evento():
-    x = random.randint(1,2)
+    x = random.randint(1,4)
     return x
 
 
@@ -22,8 +22,9 @@ def carregar_cenarios():
             "opcoes": {
                 "andar professor": "Tomar o elevador para o andar do professor",
                 "biblioteca": "Ir para a biblioteca",
+                "405": "Ir para a sala 405",
             },
-            "evento": "False",
+            "evento":False,
         },
         "andar professor": {
             "titulo": "Andar do desespero",
@@ -32,7 +33,7 @@ def carregar_cenarios():
                 "inicio": "Tomar o elevador para o saguao de entrada",
                 "professor": "Falar com o professor",
             },
-            "evento": "True",
+            "evento": True,
         },
         "professor": {
             "titulo": "O monstro do Python",
@@ -40,7 +41,7 @@ def carregar_cenarios():
                          "O professor revelou que é um monstro disfarçado "
                          "e devorou sua alma.",
             "opcoes": {},
-            "evento": "False",
+            "evento": False,
         },
         "biblioteca": {
             "titulo": "Caverna da tranquilidade",
@@ -48,8 +49,27 @@ def carregar_cenarios():
             "opcoes": {
                 "inicio": "Voltar para o saguao de entrada"
             },
-            "evento": "True",
-        }
+            "evento": True,
+        },
+        "405": {
+            "titulo": "Sala 405",
+            "descricao":"Cheiro de Doritos?! Você está na sala 405",
+            "opcoes": {
+                "falar com veteras": "Falar com um veterano: 'Me salva mein'",
+                "pegar canetao": "Roubar um canetão...",
+                "404": "Ir para sala 404",
+                },
+            "evento": True
+        },
+        "404": {
+            "titulo": "Sala 404",
+            "descricao": "Error 404: Page Not Found",
+            "opcoes": {
+                "falar com tecnico": "Falar com tecnico: 'Marcão me salva!'",
+                "brincar com robo": "Voce achou um robo muito daora parça",
+                },
+            "evento": True
+        },
     }
     nome_cenario_atual = "inicio"
     return (cenarios, nome_cenario_atual)
@@ -72,24 +92,9 @@ def main():
     cenarios, nome_cenario_atual = carregar_cenarios()
     vida_personagem = 100
     game_over = False
-    cenario_atual = cenarios[nome_cenario_atual]
-    while not game_over:
+    while not game_over and vida_personagem > 0:
         
-        if cenario_atual["evento"] == "True":
-                numero = evento()
-                
-                if numero == 1:
-                    print ("Você ganhou uma RedBull!")
-                    vida_personagem += 20
-                    print(vida_personagem)
-                
-                if numero == 2:
-                    print("Um monstro apareceu! Ele fez você perder tempo!")
-                    vida_personagem -= 30
-                    print("agora você tem {0} de vida!".format(vida_personagem))
-                    if vida_personagem <= 0:
-                        break
-                    
+        cenario_atual = cenarios[nome_cenario_atual]
         
         comprimento_do_cenario = len(nome_cenario_atual)
         print(nome_cenario_atual)
@@ -116,8 +121,13 @@ def main():
                 print("Sua indecisão foi sua ruína!")
                 game_over = True
                 
-            cenario_atual = cenarios[nome_cenario_atual]
-
+            if cenario_atual["evento"] == True:
+                numero = evento()
+                if numero == 2:
+                    print("Um monstro apareceu!")
+                    vida_personagem = 0
+                
+       
     print("Você morreu!")
 
 
