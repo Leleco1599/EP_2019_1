@@ -23,6 +23,7 @@ def carregar_cenarios():
                 "andar professor": "Tomar o elevador para o andar do professor",
                 "biblioteca": "Ir para a biblioteca",
                 "405": "Ir para a sala 405",
+                "406": "werag",
             },
             "evento":False,
         },
@@ -78,6 +79,7 @@ def carregar_cenarios():
             "opcoes": {
                     "405": "Voltar para sala 405",
                     "tp random": "Teleporte para cenario aleatorio... Este é para aventureiros eihn?... hehehe",
+                    "tp escolha": "Teletransporte para onde quiser!",
                     },
             "evento": False,
         },
@@ -101,6 +103,9 @@ def main():
     print()
 
     cenarios, nome_cenario_atual = carregar_cenarios()
+    lista_cenarios = []
+    for k in cenarios.keys():
+        lista_cenarios.append(k)
     vida_personagem = 100
     game_over = False
     cenario_atual = cenarios[nome_cenario_atual]
@@ -140,9 +145,18 @@ def main():
             
             for k,v in opcoes.items():
                 print(k,':',v)
+                
             escolha = input("O que você quer fazer: ")
-            if escolha in opcoes:
+#              ------- TELEPORTE -------
+            
+            if nome_cenario_atual == "406" and escolha == "tp escolha":
+                destino = input("Para onde você quer ir?: ")
+                if destino in lista_cenarios:
+                    nome_cenario_atual = destino
+                    
+            elif escolha in opcoes and escolha != "tp escolha":
                 nome_cenario_atual = escolha
+                
             else:
                 print("Sua indecisão foi sua ruína!")
                 game_over = True
