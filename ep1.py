@@ -22,8 +22,9 @@ def carregar_cenarios():
             "opcoes": {
                 "andar professor": "Tomar o elevador para o andar do professor",
                 "biblioteca": "Ir para a biblioteca",
+                "405": "Ir para a sala 405",
             },
-            "evento": "False",
+            "evento":False,
         },
         "andar professor": {
             "titulo": "Andar do desespero",
@@ -32,7 +33,7 @@ def carregar_cenarios():
                 "inicio": "Tomar o elevador para o saguao de entrada",
                 "professor": "Falar com o professor",
             },
-            "evento": "True",
+            "evento": True,
         },
         "professor": {
             "titulo": "O monstro do Python",
@@ -40,7 +41,7 @@ def carregar_cenarios():
                          "O professor revelou que é um monstro disfarçado "
                          "e devorou sua alma.",
             "opcoes": {},
-            "evento": "False",
+            "evento": False,
         },
         "biblioteca": {
             "titulo": "Caverna da tranquilidade",
@@ -48,8 +49,38 @@ def carregar_cenarios():
             "opcoes": {
                 "inicio": "Voltar para o saguao de entrada"
             },
-            "evento": "True",
-        }
+            "evento": True,
+        },
+        "405": {
+            "titulo": "Sala 405",
+            "descricao":"Cheiro de Doritos?! Você está na sala 405",
+            "opcoes": {
+                "falar com veteras": "Falar com um veterano: 'Me salva mein'",
+                "pegar canetao": "Roubar um canetão...",
+                "404": "Ir para sala 404",
+                "inicio": "Tomar o elevandor para o saguao de entrada",
+                },
+            "evento": True,
+        },
+        "404": {
+            "titulo": "Sala 404",
+            "descricao": "Error 404: Page Not Found",
+            "opcoes": {
+                "falar com tecnico": "Falar com tecnico: 'Marcão me salva!'",
+                "brincar com robo": "Voce achou um robo muito daora parça",
+                "405": "Voltar para sala 405",
+                },
+            "evento": True,
+        },
+        "406": {
+            "titulo": "Bem vindo a sala 406",
+            "descricao": "Aquela nostalgia de estudar desesperado pras PF's com o ar no 16°... AH! e nesta sala você pode se TELETRANSPORTAR para qualquer outra sala desde que lembre o nome! Aproveite :)",
+            "opcoes": {
+                    "405": "Voltar para sala 405",
+                    "tp random": "Teleporte para cenario aleatorio... Este é para aventureiros eihn?... hehehe",
+                    },
+            "evento": False,
+        },
     }
     nome_cenario_atual = "inicio"
     return (cenarios, nome_cenario_atual)
@@ -75,13 +106,13 @@ def main():
     cenario_atual = cenarios[nome_cenario_atual]
     while not game_over:
         
-        if cenario_atual["evento"] == "True":
+        if cenario_atual["evento"] == True:
                 numero = evento()
                 
                 if numero == 1:
                     print ("Você ganhou uma RedBull!")
                     vida_personagem += 20
-                    print(vida_personagem)
+                    print("agora você tem {0} de vida!".format(vida_personagem))
                 
                 if numero == 2:
                     print("Um monstro apareceu! Ele fez você perder tempo!")
