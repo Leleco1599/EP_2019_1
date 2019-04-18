@@ -12,6 +12,14 @@ def evento():
     x = random.randint(1,2)
     return x
 
+#--------- PARTES EP RANDOM ------------
+def veteran():
+    veteras = random.randint(1,7)
+    return veteras
+
+def tecnician():
+    tecnic = random.randint(1,5)
+    return tecnic
 
 #--------- FUNCAO CENARIOS -----------
 def carregar_cenarios():
@@ -23,7 +31,7 @@ def carregar_cenarios():
                 "andar professor": "Tomar o elevador para o andar do professor",
                 "biblioteca": "Ir para a biblioteca",
                 "405": "Ir para a sala 405",
-                "406": "werag",
+                "inventario": "Abrir o seu inventario",
             },
             "evento":False,
         },
@@ -59,6 +67,7 @@ def carregar_cenarios():
                 "falar com veteras": "Falar com um veterano: 'Me salva mein'",
                 "pegar canetao": "Roubar um canetão...",
                 "404": "Ir para sala 404",
+                "406": "Ir para a 406....... cuidado...",
                 "inicio": "Tomar o elevandor para o saguao de entrada",
                 },
             "evento": True,
@@ -78,15 +87,20 @@ def carregar_cenarios():
             "descricao": "Aquela nostalgia de estudar desesperado pras PF's com o ar no 16°... AH! e nesta sala você pode se TELETRANSPORTAR para qualquer outra sala desde que lembre o nome! Aproveite :)",
             "opcoes": {
                     "405": "Voltar para sala 405",
-                    "tp random": "Teleporte para cenario aleatorio... Este é para aventureiros eihn?... hehehe",
+#                    "tp random": "Teleporte para cenario aleatorio... Este é para aventureiros eihn?... hehehe",
                     "tp escolha": "Teletransporte para onde quiser!",
                     },
-            "evento": False,
+            "evento": True,
         },
     }
     nome_cenario_atual = "inicio"
     return (cenarios, nome_cenario_atual)
 
+#--------- FUNCAO INVENTARIO -----------
+def funcao_inventario():
+    invent = {"RedBull": 0,
+                  "Partes EP": 0,}
+    return invent
 
 #-------- PROGRAMA QUE RODA O JOGO ----------
 
@@ -101,31 +115,46 @@ def main():
         "na entrada do Insper, e quer procurar o professor para pedir um "
         "adiamento do EP (boa sorte...)")
     print()
-
+    
+#------ DECLARANDO VARIAVEIS ---------
     cenarios, nome_cenario_atual = carregar_cenarios()
+    invent = funcao_inventario()
     lista_cenarios = []
     for k in cenarios.keys():
         lista_cenarios.append(k)
     vida_personagem = 100
     game_over = False
     cenario_atual = cenarios[nome_cenario_atual]
+#------------------------------------
+    
     while not game_over:
         
         if cenario_atual["evento"] == True:
                 numero = evento()
                 
                 if numero == 1:
-                    print ("Você ganhou uma RedBull!")
-                    vida_personagem += 20
-                    print("agora você tem {0} de vida!".format(vida_personagem))
+                    print ("* Você ganhou uma RedBull! *")
+                    print()
+                    print("Você pode bebe-lo ou guardalo no seu inventário!")
+                    opcoes_redbull = input("beber ou guardar?: ")
+                    if opcoes_redbull == "beber":
+                        vida_personagem += 20
+                        print("agora você tem {0} de vida!".format(vida_personagem))
+                        
+                    elif opcoes_redbull == "guardar":
+                        invent["RedBull"] += 1
+                        print("Seu Redbull foi adicionado! Agora você tem {0}".format(invent))
                 
                 if numero == 2:
-                    print("Um monstro apareceu! Ele fez você perder tempo!")
+                    print("* Um monstro apareceu! Ele fez você perder tempo! *")
                     vida_personagem -= 30
-                    print("agora você tem {0} de vida!".format(vida_personagem))
+                    print("Agora você tem {0} de vida!".format(vida_personagem))
+                    print()
+                    print("#####################")
+                    print()
                     if vida_personagem <= 0:
                         break
-                    
+                
         
         comprimento_do_cenario = len(nome_cenario_atual)
         print(nome_cenario_atual)
@@ -147,15 +176,59 @@ def main():
                 print(k,':',v)
                 
             escolha = input("O que você quer fazer: ")
+            print()
+            print()
+            print("#####################")
+            print()
+            
+#              ------- INTERAGIR COM NINJA/TECNICO -------
+            if nome_cenario_atual == "405" and escolha == "falar com veteras":
+                veteras = veteran()
+                if veteras == 1:
+                    invent["Partes EP"] += 1
+                    print(invent)
+                    vida_personagem -= 10
+                    print("Você conseguiu uma parte do EP! Mas isso demorou um pouco... Agora sua vida é {0}".format(vida_personagem))
+                    nome_cenario_atual = "405"
+                elif veteras != 1:
+                    vida_personagem -= 5
+                    print("O veterano não te deu uma parte do EP... Mas vcs trocaram uma ideia daora, o que levou um tempo! Agora sua vida é {0}".format(vida_personagem))
+                    nome_cenario_atual = "405"
+                
+            elif nome_cenario_atual == "404" and escolha == "falar com tecnico":
+                tecnic = tecnician()
+                if tecnic == 1:
+                    invent["Partes EP"] += 1
+                    print(invent)
+                    print("Você conseguiu uma parte do EP! Como foi com o um tecnico, não demorou nada! Você ainda tem {0} de vida".format(vida_personagem))
+                    nome_cenario_atual = "404"
+                elif tecnic != 1:
+                    vida_personagem -= 10
+                    print("O tecnico não te deu uma parte do EP... Mas ele estava fazendo um robô muito daora e você se distraiu! Agora sua vida é {0}".format(vida_personagem))
+                    nome_cenario_atual = "404"    
 #              ------- TELEPORTE -------
             
-            if nome_cenario_atual == "406" and escolha == "tp escolha":
+            elif nome_cenario_atual == "406" and escolha == "tp escolha":
                 destino = input("Para onde você quer ir?: ")
                 if destino in lista_cenarios:
                     nome_cenario_atual = destino
                     
-            elif escolha in opcoes and escolha != "tp escolha":
+#              ------ FIM DO TELEPORTE ------
+                    
+            elif nome_cenario_atual == "inicio" and escolha == "inventario":
+                tomar_rb = input("Você quer tomar um RedBull? (s/n): ")
+                if tomar_rb == "s" and invent["RedBull"] != 0:
+                    invent["RedBull"] -= 1
+                    vida_personagem += 20
+                    print("agora você tem {0} de vida!".format(vida_personagem))
+                    
+                elif tomar_rb == "n":
+                    nome_cenario_atual = "inicio"        
+                
+            
+            elif escolha in opcoes and escolha != "tp escolha" and escolha != "inventario" and escolha != "falar com veteras" and escolha != "falar com tecnico":
                 nome_cenario_atual = escolha
+                
                 
             else:
                 print("Sua indecisão foi sua ruína!")
@@ -167,5 +240,5 @@ def main():
 
 
 # Programa principal.
-if __name__ == "__main__":
+if __name__== "__main__":
     main()
