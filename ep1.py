@@ -133,7 +133,11 @@ def main():
                 numero = evento()
                 
                 if numero == 1:
+<<<<<<< HEAD
                     print ("* Você ganhou uma RedBull! *")
+=======
+                    print ("*** Você ganhou uma RedBull! ***")
+>>>>>>> dfcc58210a6eaa6febb85e294f14688965f4d902
                     print()
                     print("Você pode bebe-lo ou guardalo no seu inventário!")
                     opcoes_redbull = input("beber ou guardar?: ")
@@ -146,7 +150,11 @@ def main():
                         print("Seu Redbull foi adicionado! Agora você tem {0}".format(invent))
                 
                 if numero == 2:
+<<<<<<< HEAD
                     print("* Um monstro apareceu! Ele fez você perder tempo! *")
+=======
+                    print("*** Um monstro apareceu! Ele fez você perder tempo! ***")
+>>>>>>> dfcc58210a6eaa6febb85e294f14688965f4d902
                     vida_personagem -= 30
                     print("Agora você tem {0} de vida!".format(vida_personagem))
                     print()
@@ -180,6 +188,7 @@ def main():
             print()
             print("#####################")
             print()
+<<<<<<< HEAD
             
 #              ------- INTERAGIR COM NINJA/TECNICO -------
             if nome_cenario_atual == "405" and escolha == "falar com veteras":
@@ -206,13 +215,26 @@ def main():
                     vida_personagem -= 10
                     print("O tecnico não te deu uma parte do EP... Mas ele estava fazendo um robô muito daora e você se distraiu! Agora sua vida é {0}".format(vida_personagem))
                     nome_cenario_atual = "404"    
+=======
+
+
+>>>>>>> dfcc58210a6eaa6febb85e294f14688965f4d902
 #              ------- TELEPORTE -------
             
             elif nome_cenario_atual == "406" and escolha == "tp escolha":
                 destino = input("Para onde você quer ir?: ")
                 if destino in lista_cenarios:
                     nome_cenario_atual = destino
+#              ------ FIM DO TELEPORTE ------
                     
+            elif nome_cenario_atual == "inicio" and escolha == "inventario":
+                tomar_rb = input("Você quer tomar um RedBull? (s/n): ")
+                if tomar_rb == "s" and invent["RedBull"] != 0:
+                    invent["RedBull"] -= 1
+                    vida_personagem += 20
+                    print("agora você tem {0} de vida!".format(vida_personagem))
+                    
+<<<<<<< HEAD
 #              ------ FIM DO TELEPORTE ------
                     
             elif nome_cenario_atual == "inicio" and escolha == "inventario":
@@ -227,6 +249,13 @@ def main():
                 
             
             elif escolha in opcoes and escolha != "tp escolha" and escolha != "inventario" and escolha != "falar com veteras" and escolha != "falar com tecnico":
+=======
+                elif tomar_rb == "n":
+                    nome_cenario_atual = "inicio"        
+            
+            
+            elif escolha in opcoes and escolha != "tp escolha" and escolha != "inventario":
+>>>>>>> dfcc58210a6eaa6febb85e294f14688965f4d902
                 nome_cenario_atual = escolha
                 
                 
