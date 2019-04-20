@@ -9,7 +9,7 @@ import random
 
 #--------- EVENTO RANDOM ------------
 def evento():
-    x = random.randint(1,2)
+    x = random.randint(1,4)
     return x
 
 #--------- PARTES EP RANDOM ------------
@@ -186,25 +186,35 @@ def main():
                 veteras = veteran()
                 if veteras == 1:
                     invent["Partes EP"] += 1
+                    if invent["Partes EP"] == 5:
+                        break
                     print(invent)
                     vida_personagem -= 10
                     print("Você conseguiu uma parte do EP! Mas isso demorou um pouco... Agora sua vida é {0}".format(vida_personagem))
+                    if vida_personagem <= 0:
+                        break
                     nome_cenario_atual = "405"
                 elif veteras != 1:
                     vida_personagem -= 5
                     print("O veterano não te deu uma parte do EP... Mas vcs trocaram uma ideia daora, o que levou um tempo! Agora sua vida é {0}".format(vida_personagem))
+                    if vida_personagem <= 0:
+                        break
                     nome_cenario_atual = "405"
                 
             elif nome_cenario_atual == "404" and escolha == "falar com tecnico":
                 tecnic = tecnician()
                 if tecnic == 1:
                     invent["Partes EP"] += 1
+                    if invent["Partes EP"] == 5:
+                        break
                     print(invent)
                     print("Você conseguiu uma parte do EP! Como foi com o um tecnico, não demorou nada! Você ainda tem {0} de vida".format(vida_personagem))
                     nome_cenario_atual = "404"
                 elif tecnic != 1:
                     vida_personagem -= 10
                     print("O tecnico não te deu uma parte do EP... Mas ele estava fazendo um robô muito daora e você se distraiu! Agora sua vida é {0}".format(vida_personagem))
+                    if vida_personagem <= 0:
+                        break
                     nome_cenario_atual = "404"    
 #              ------- TELEPORTE -------
             
@@ -235,8 +245,12 @@ def main():
                 game_over = True
                 
             cenario_atual = cenarios[nome_cenario_atual]
-
-    print("Você morreu!")
+            
+    if invent["Partes EP"] == 5:
+        print("BOA MITOO! ACABOU O EP NO TEMPO BROO")
+        
+    else:
+        print("Você morreu!")
 
 
 # Programa principal.
