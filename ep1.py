@@ -21,6 +21,9 @@ def tecnician():
     tecnic = random.randint(1,5)
     return tecnic
 
+def solo():
+    alone = random.randint(1,6)
+    return alone
 #--------- FUNCAO CENARIOS -----------
 def carregar_cenarios():
     cenarios = {
@@ -56,7 +59,9 @@ def carregar_cenarios():
             "titulo": "Caverna da tranquilidade",
             "descricao": "Voce esta na biblioteca",
             "opcoes": {
-                "inicio": "Voltar para o saguao de entrada"
+                "inicio": "Voltar para o saguao de entrada",
+                "falar com veteras": "Falar com um veterano: 'Me salva mein'",
+                "tentar ep": "Colocar o fonezão e tentar fazer o ep sozinho...",
             },
             "evento": True,
         },
@@ -65,9 +70,7 @@ def carregar_cenarios():
             "descricao":"Cheiro de Doritos?! Você está na sala 405",
             "opcoes": {
                 "falar com veteras": "Falar com um veterano: 'Me salva mein'",
-                "pegar canetao": "Roubar um canetão...",
                 "404": "Ir para sala 404",
-                "406": "Ir para a 406....... cuidado...",
                 "inicio": "Tomar o elevandor para o saguao de entrada",
                 },
             "evento": True,
@@ -78,6 +81,7 @@ def carregar_cenarios():
             "opcoes": {
                 "falar com tecnico": "Falar com tecnico: 'Marcão me salva!'",
                 "brincar com robo": "Voce achou um robo muito daora parça",
+                "406": "Ir para a 406....... cuidado...",
                 "405": "Voltar para sala 405",
                 },
             "evento": True,
@@ -86,9 +90,18 @@ def carregar_cenarios():
             "titulo": "Bem vindo a sala 406",
             "descricao": "Aquela nostalgia de estudar desesperado pras PF's com o ar no 16°... AH! e nesta sala você pode se TELETRANSPORTAR para qualquer outra sala desde que lembre o nome! Aproveite :)",
             "opcoes": {
-                    "405": "Voltar para sala 405",
+                    "404": "Voltar para sala 404",
 #                    "tp random": "Teleporte para cenario aleatorio... Este é para aventureiros eihn?... hehehe",
                     "tp escolha": "Teletransporte para onde quiser!",
+                    },
+            "evento": True,
+        },
+        "sala do mago": {
+            "titulo": "Bem vindo a sala do MAGO DE COMP",
+            "descricao": "Nesta sala o Mago ajuda secretamente aqueles poucos que conhecem sua sala!",
+            "opcoes": {
+                    "pedir ajuda": "Oferecer ao Mago uma cerveja no sujinhus em troca de partes do EP...",
+                    "406": "Voltar para a sala 406",
                     },
             "evento": True,
         },
@@ -99,7 +112,7 @@ def carregar_cenarios():
 #--------- FUNCAO INVENTARIO -----------
 def funcao_inventario():
     invent = {"RedBull": 0,
-                  "Partes EP": 0,}
+              "Partes EP": 0,}
     return invent
 
 #-------- PROGRAMA QUE RODA O JOGO ----------
@@ -181,7 +194,7 @@ def main():
             print("#####################")
             print()
             
-#              ------- INTERAGIR COM NINJA/TECNICO -------
+#              ------- INTERAGIR COM NINJA/TECNICO/FAZER SOLO -------
             if nome_cenario_atual == "405" and escolha == "falar com veteras":
                 veteras = veteran()
                 if veteras == 1:
@@ -216,15 +229,60 @@ def main():
                     if vida_personagem <= 0:
                         break
                     nome_cenario_atual = "404"    
+            elif nome_cenario_atual == "biblioteca" and escolha == "falar com veteras":
+                veteras = veteran()
+                if veteras == 1:
+                    invent["Partes EP"] += 1
+                    if invent["Partes EP"] == 5:
+                        break
+                    print(invent)
+                    vida_personagem -= 10
+                    print("Você conseguiu uma parte do EP! Mas isso demorou um pouco... Agora sua vida é {0}".format(vida_personagem))
+                    if vida_personagem <= 0:
+                        break
+                    nome_cenario_atual = "biblioteca"
+                elif veteras != 1:
+                    vida_personagem -= 5
+                    print("O veterano não te deu uma parte do EP... Mas vcs trocaram uma ideia daora, o que levou um tempo! Agora sua vida é {0}".format(vida_personagem))
+                    if vida_personagem <= 0:
+                        break
+                    nome_cenario_atual = "biblioteca"
+            elif nome_cenario_atual == "biblioteca" and escolha == "tentar ep":
+                alone = solo()
+                if alone == 1:
+                    invent["Partes EP"] += 1
+                    if invent["Partes EP"] == 5:
+                        break
+                    print(invent)
+                    vida_personagem -= 10
+                    print("Você conseguiu fazer uma parte do EP! Como vc está com dúvidas e não manja muito, demorou um pouco... Você tem {0} de vida".format(vida_personagem))
+                    if vida_personagem <= 0:
+                        break
+                    nome_cenario_atual = "biblioteca"
+                elif alone != 1:
+                    vida_personagem -= 5
+                    print("Você não conseguiu fazer o EP e acabou ouvindo musica... Mas logo percebeu que seu tempo estava curto! Isso não demorou muito. Você tem {0} de vida".format(vida_personagem))
+                    if vida_personagem <= 0:
+                        break
+                    nome_cenario_atual = "biblioteca"  
 #              ------- TELEPORTE -------
             
             elif nome_cenario_atual == "406" and escolha == "tp escolha":
                 destino = input("Para onde você quer ir?: ")
                 if destino in lista_cenarios:
                     nome_cenario_atual = destino
-                    
-#              ------ FIM DO TELEPORTE ------
-                    
+
+#              ------ SALA DO MAGO ------
+
+            elif nome_cenario_atual == "sala do mago" and escolha == "pedir ajuda":
+                invent["Partes EP"] +=2
+                print("O mago te deu 2 partes do EP!")
+                if invent["Partes EP"] == 5:
+                    break
+                nome_cenario_atual = "406"
+            
+            
+            
             elif nome_cenario_atual == "inicio" and escolha == "inventario":
                 tomar_rb = input("Você quer tomar um RedBull? (s/n): ")
                 if tomar_rb == "s" and invent["RedBull"] != 0:
@@ -235,7 +293,10 @@ def main():
                 elif tomar_rb == "n":
                     nome_cenario_atual = "inicio"        
                 
-            
+            elif nome_cenario_atual == "404" and escolha == "brincar com robo":
+                vida_personagem -= 40
+                print("Você perdeu muito tempo brincando com o robo! Agora você tem {0}".format(vida_personagem))
+                nome_cenario_atual = "404"
             elif escolha in opcoes and escolha != "tp escolha" and escolha != "inventario" and escolha != "falar com veteras" and escolha != "falar com tecnico":
                 nome_cenario_atual = escolha
                 
